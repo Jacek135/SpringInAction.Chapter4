@@ -1,28 +1,29 @@
 package concert;
 
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 
 @Aspect
 public class Audience {
-    @Before("execution(** concert.Performance.perform(..))")
+
+    @Pointcut("execution(** concert.Performance.perform(..))")
+    public void performance(){}
+
+    @Before("performance()")
     public void silenceCellPhones() {
         System.out.println("Silencing cell phones");
     }
 
-    @Before("execution(** concert.Performance.perform(..))")
+    @Before("performance()")
     public void takeSeats() {
         System.out.println("Taking seats");
     }
 
-    @AfterReturning("execution(** concert.Performance.perform(..))")
+    @AfterReturning("performance()")
     public void applause() {
         System.out.println("CLAP CLAP CLAP");
     }
 
-    @AfterThrowing("execution(** concet.Performance.perform(..))")
+    @AfterThrowing("performance()")
     public void demandRefund() {
         System.out.println("Demanding a refund");
     }
